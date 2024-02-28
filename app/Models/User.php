@@ -47,6 +47,6 @@ class User extends Authenticatable
 
     public function destinations()
     {
-        return $this->hasMany('App\Destination');
+        return $this->hasMany(Destination::class);
     }
 }

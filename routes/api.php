@@ -11,11 +11,12 @@ use Illuminate\Support\Facades\Route;
 // });
 Route::get('users', [UserController::class, 'index']);
 Route::post('users', [UserController::class, 'store']);
+Route::get('users/{users}', [UserController::class, 'show']);
 
 Route::get('destinations', [DestinationController::class, 'index']);
 Route::get('destinations/{destination}', [DestinationController::class, 'show']);
 Route::post('destinations', [DestinationController::class, 'store']);
-// Route::put('destinations/{destination}', [DestinationController::class, 'update']);
-// Route::delete('destinations/{destination}', [DestinationController::class, 'destroy']);
+Route::put('destinations/{destination}', [DestinationController::class, 'update']);
+Route::delete('destinations/{destination}', [DestinationController::class, 'destroy']);
 
 

@@ -47,6 +47,6 @@ class User extends Authenticatable
 
     public function destinations()
     {
-        return $this->hasMany(Destination::class);
+        return $this->hasMany(Destination::class, 'user_id');
     }
 }

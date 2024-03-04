@@ -25,20 +25,20 @@ class UserController extends Controller
             'password' => 'required|string|min:6|confirmed',
         ]);
 
-        User::create([
+        $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password)
         ]);
 
-        return response()->json(['message' => 'Usuario creado exitosamente'], 200);
+        return response()->json($user);
     }
 
 
-    public function show(string $id)
-    {
-        //
-    }
+    // public function show(string $id)
+    // {
+    //     return response()->json($id);
+    // }
 
 
     public function update(Request $request, string $id)

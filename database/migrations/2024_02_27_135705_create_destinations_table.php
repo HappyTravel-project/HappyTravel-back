@@ -18,9 +18,9 @@ return new class extends Migration
             $table->string('location');
             $table->string('image');
             $table->text('description');
-            $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users');
+            $table->timestamps();
         });
     }
 

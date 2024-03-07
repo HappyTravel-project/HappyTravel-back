@@ -8,9 +8,6 @@
 ## 📌 Requirements
 
 Visual Studio Code
-
-
-
 Node.js installed on the computer
 
 ## ⚙️ Installation

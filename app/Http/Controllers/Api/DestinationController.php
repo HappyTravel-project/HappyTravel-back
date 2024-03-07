@@ -10,6 +10,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class DestinationController extends Controller
 {
@@ -52,8 +53,17 @@ class DestinationController extends Controller
             ], 422);
         }
 
-        $destination = new Destination($request->all());
-        $destination -> user()-> associate($user);
+        $imagePath = $request->file('image')->store('public/destinations');
+        $imageUrl = Storage::url($imagePath);
+
+        $destination = new Destination([
+            'title' => $request->title,
+            'location' => $request->location,
+            'image' => $imageUrl,
+            'description' => $request->description,
+        ]);
+
+        $destination->user()->associate($user);
         $destination->save();
 
         return response()->json(new DestinationResource($destination), 200);
@@ -75,6 +85,7 @@ class DestinationController extends Controller
             'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'description' => 'required|string|max:255',
         ]);
+
 
         if ($validator->fails()) {
             return response()->json([

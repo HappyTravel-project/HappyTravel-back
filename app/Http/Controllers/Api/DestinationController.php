@@ -17,7 +17,8 @@ class DestinationController extends Controller
 
     public function index(): JsonResponse
     {
-        $destinations = Destination::all();
+        $destinations = Destination::paginate(8);
+        
         return response()->json(['data' => DestinationResource::collection($destinations)]);
 
     }

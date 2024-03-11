@@ -17,8 +17,30 @@ class DestinationController extends Controller
 
     public function index(): JsonResponse
     {
-        $destinations = Destination::all();
-        return response()->json(['data' => DestinationResource::collection($destinations)]);
+
+        $destinations = Destination::paginate(8);
+
+        $data = DestinationResource::collection($destinations);
+        $pagination = $destinations->toArray();
+
+        return response()->json([
+            'data' => $data,
+            'meta' => [
+                'current_page' => $pagination['current_page'],
+                'from' => $pagination['from'],
+                'last_page' => $pagination['last_page'],
+                'path' => $pagination['path'],
+                'per_page' => $pagination['per_page'],
+                'to' => $pagination['to'],
+                'total' => $pagination['total']
+            ],
+            'links' => [
+                'first' => $pagination['first_page_url'],
+                'last' => $pagination['last_page_url'],
+                'prev' => $pagination['prev_page_url'],
+                'next' => $pagination['next_page_url']
+            ]
+        ]);
 
     }
 
@@ -104,6 +126,9 @@ class DestinationController extends Controller
     {
         $this->authorize('delete', $destination);
         $destination->delete();
-        return response()->json(null, Response::HTTP_NO_CONTENT);
+
+        return response()->json([
+            'message' => 'El destino ha sido eliminado exitosamente'
+        ], Response::HTTP_OK);
     }
 }

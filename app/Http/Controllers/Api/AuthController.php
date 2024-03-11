@@ -8,11 +8,54 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
-class LoginController extends Controller
+
+class AuthController extends Controller
 {
+    public function register(Request $request)
+
+    {
+
+        $validator = Validator::make($request->all(),[
+
+            'name'     => 'required',
+            'email'    => 'required|email|unique:users',
+            'password' => 'required|min:8'
+
+        ]);
+
+        if($validator->fails()) {
+
+            return response()->json([
+                'success' => false,
+                'message' => $validator->errors()->first()
+
+            ]);
+
+        }
+
+        $user = User::create([
+
+            'name'     => $request->name,
+            'email'    => $request->email,
+            'password' => Hash::make($request->password),
+
+
+        ]);
+
+        $token = $user->createToken('remember_token')->plainTextToken;
+
+        return response()->json([
+            'user'    => $user,
+            'remember_token'   => $token,
+            'success' => true,
+            'message' => 'Usuario registrado exitosamente.'
+        ], 201);
+
+    }
+
+
     public function login(Request $request): JsonResponse
     {
         $validator = Validator::make($request->all(), [
@@ -35,7 +78,6 @@ class LoginController extends Controller
             ], Response::HTTP_UNPROCESSABLE_ENTITY);
         }
 
-
         $token = $user->createToken('access_token')->plainTextToken;
 
         return response()->json([
@@ -50,6 +92,7 @@ class LoginController extends Controller
             ]
         ], Response::HTTP_OK);
     }
+
 
 
     public function logout(Request $request): JsonResponse

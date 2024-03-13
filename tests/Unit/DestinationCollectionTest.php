@@ -33,13 +33,11 @@ class DestinationCollectionTest extends TestCase
             ]),
         ];
 
-        // Creamos una instancia de DestinationCollection
+        // se crea una instancia 
         $collection = new DestinationCollection($destinations);
 
-        // Transformamos la colección en un arreglo
         $transformedCollection = $collection->toArray(new Request());
 
-        // Verificamos si la transformación es correcta
         $this->assertEquals([
             [
                 'id' => 1,

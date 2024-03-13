@@ -20,3 +20,6 @@ Route::post('destinations/{destination}', [DestinationController::class, 'update
 Route::get('destinations', [DestinationController::class, 'index']);
 Route::get('destinations/{destination}', [DestinationController::class, 'show']);
 
+Route::middleware('auth:sanctum')->get('/check-session', function (Request $request) {
+    return response()->json(['isLoggedIn' => true]);
+});

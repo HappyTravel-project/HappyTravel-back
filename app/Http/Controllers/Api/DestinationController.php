@@ -20,26 +20,9 @@ class DestinationController extends Controller
 
         $destinations = Destination::paginate(8);
 
-        $data = DestinationResource::collection($destinations);
-        $pagination = $destinations->toArray();
-
         return response()->json([
-            'data' => $data,
-            'meta' => [
-                'current_page' => $pagination['current_page'],
-                'from' => $pagination['from'],
-                'last_page' => $pagination['last_page'],
-                'path' => $pagination['path'],
-                'per_page' => $pagination['per_page'],
-                'to' => $pagination['to'],
-                'total' => $pagination['total']
-            ],
-            'links' => [
-                'first' => $pagination['first_page_url'],
-                'last' => $pagination['last_page_url'],
-                'prev' => $pagination['prev_page_url'],
-                'next' => $pagination['next_page_url']
-            ]
+            'data' => $destinations
+
         ]);
 
     }
@@ -116,7 +99,19 @@ class DestinationController extends Controller
             ], 422);
         }
 
-        $destination->update($request->all());
+        $data = $request->only(['title', 'location', 'description']);
+
+        $imagePath = $request->file('image')->store('public/destinations');
+        $imageUrl = Storage::url($imagePath);
+
+
+        if ($destination->image) {
+            Storage::delete(str_replace('storage', 'public', $destination->image));
+        }
+
+        $data['image'] = $imageUrl;
+
+        $destination->update($data);
         return response()->json(new DestinationResource($destination), 200);
 
     }

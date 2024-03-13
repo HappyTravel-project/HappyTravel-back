@@ -23,13 +23,22 @@ class AuthController extends Controller
             'email'    => 'required|email|unique:users',
             'password' => 'required|min:8'
 
-        ]);
+        ], [
+        'name.required' => 'El campo nombre es requerido.',
+        'name.string' => 'El campo nombre debe ser una cadena de caracteres.',
+        'name.max' => 'El campo nombre no puede tener más de 255 caracteres.',
+        'email.required' => 'El campo email es requerido.',
+        'email.email' => 'El formato del correo electrónico es incorrecto.',
+        'email.unique' => 'El correo electrónico ya está en uso.',
+        'password.required' => 'El campo contraseña es requerido.',
+        'password.min' => 'La contraseña debe tener al menos 8 caracteres.',
+    ]);
 
         if($validator->fails()) {
 
             return response()->json([
                 'success' => false,
-                'message' => $validator->errors()->first()
+                'message' => $validator->errors()->toArray()
 
             ]);
 

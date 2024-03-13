@@ -18,28 +18,17 @@ class DestinationController extends Controller
     public function index(): JsonResponse
     {
 
-        $destinations = Destination::paginate(8);
+        $user = Auth::user();
+        $destinationsQuery = Destination::query();
 
-        $data = DestinationResource::collection($destinations);
-        $pagination = $destinations->toArray();
+        if ($user) {
+            $destinationsQuery->where('user_id', $user->id);
+        }
+
+        $destinations = $destinationsQuery->paginate(8);
 
         return response()->json([
-            'data' => $data,
-            'meta' => [
-                'current_page' => $pagination['current_page'],
-                'from' => $pagination['from'],
-                'last_page' => $pagination['last_page'],
-                'path' => $pagination['path'],
-                'per_page' => $pagination['per_page'],
-                'to' => $pagination['to'],
-                'total' => $pagination['total']
-            ],
-            'links' => [
-                'first' => $pagination['first_page_url'],
-                'last' => $pagination['last_page_url'],
-                'prev' => $pagination['prev_page_url'],
-                'next' => $pagination['next_page_url']
-            ]
+            'data' => $destinations
         ]);
 
     }
@@ -101,13 +90,17 @@ class DestinationController extends Controller
             return response()->json(['error' => 'Usuario no autenticado'], 401);
         }
 
+
+        if ($user->id !== $destination->user_id) {
+            return response()->json(['error' => 'No tienes permiso para editar este destino'], 403);
+        }
+
         $validator = Validator::make($request->all(), [
             'title' => 'required|string|max:255',
             'location' => 'required|string|max:255',
             'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'description' => 'required|string|max:255',
         ]);
-
 
         if ($validator->fails()) {
             return response()->json([
@@ -116,7 +109,19 @@ class DestinationController extends Controller
             ], 422);
         }
 
-        $destination->update($request->all());
+
+        $imagePath = $request->file('image')->store('public/destinations');
+        $imageUrl = Storage::url($imagePath);
+
+
+        if ($destination->image) {
+            Storage::delete(str_replace('storage', 'public', $destination->image));
+        }
+
+        $data = $request->only(['title', 'location', 'description']);
+        $data['image'] = $imageUrl;
+
+        $destination->update($data);
         return response()->json(new DestinationResource($destination), 200);
 
     }
@@ -124,11 +129,39 @@ class DestinationController extends Controller
 
     public function destroy(Destination $destination): JsonResponse
     {
-        $this->authorize('delete', $destination);
+        $user = Auth::user();
+        if (!$user) {
+            return response()->json(['error' => 'Usuario no autenticado'], 401);
+        }
+
+
+        if ($user->id !== $destination->user_id) {
+            return response()->json(['error' => 'No tienes permiso para eliminar este destino'], 403);
+        }
+
         $destination->delete();
 
         return response()->json([
             'message' => 'El destino ha sido eliminado exitosamente'
         ], Response::HTTP_OK);
+    }
+
+    public function search(Request $request)
+    {
+        $request->validate([
+            'search' => 'required|string',
+        ]);
+
+        $searchTerm = $request->input('search');
+
+        $destination = Destination::where('name', 'like', '%' . $searchTerm . '%')
+                        ->orWhere('location', 'like', '%' . $searchTerm . '%')
+                        ->get();
+
+                        if ($destination->isEmpty()) {
+                            return response()->json(['message' => 'No se encontraron resultados'], 404);
+                        }
+
+                        return response()->json($destination);
     }
 }

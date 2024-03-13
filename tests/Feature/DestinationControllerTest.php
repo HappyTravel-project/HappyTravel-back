@@ -8,12 +8,13 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
+// Estas pruebas verifican el acceso a los endpoints protegidos por un usuario autenticado en el controlador de destinos.
 class DestinationControllerTest extends TestCase
 {
     use RefreshDatabase;
 
 
-    /** @test */
+    
     public function authenticated_user_can_access_protected_endpoints()
     {
         $user = User::factory()->create();
@@ -24,7 +25,7 @@ class DestinationControllerTest extends TestCase
         $response->assertStatus(200);
     }
 
-    /** @test */
+    
     // public function user_can_create_destination_with_valid_data()
     // {
     //     $user = User::factory()->create();

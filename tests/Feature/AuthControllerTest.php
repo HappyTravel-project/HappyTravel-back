@@ -9,11 +9,12 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use Tests\TestCase;
 
+//esta prueba es para verifican la autenticación de usuarios en el controlador de autenticación.
 class AuthControllerTest extends TestCase
 {
     use RefreshDatabase;
 
-    /** @test */
+    
     public function user_can_login_with_valid_credentials()
     {
         $user = User::factory()->create([
@@ -39,7 +40,7 @@ class AuthControllerTest extends TestCase
             ]);
     }
 
-    /** @test */
+   
     public function user_cannot_login_with_invalid_credentials()
     {
         $response = $this->postJson('/api/login', [

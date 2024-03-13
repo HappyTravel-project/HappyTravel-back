@@ -7,7 +7,7 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 use App\Models\User;
 
-
+// Esta es la prueba que escribiste para el controlador de usuarios, específicamente el método store.
 class UserControllerTest extends TestCase
 {
     use RefreshDatabase; // Esto se encargará de migrar la base de datos en memoria para cada prueba.
@@ -19,7 +19,7 @@ class UserControllerTest extends TestCase
      */
     public function testStore()
     {
-        // Simulamos una solicitud HTTP con datos de usuario
+        // se simula una solicitud HTTP con datos de usuario
         $response = $this->postJson('/api/users', [
             'name' => 'John Doe',
             'email' => 'john@example.com',
@@ -27,16 +27,16 @@ class UserControllerTest extends TestCase
             'password_confirmation' => 'password123'
         ]);
 
-        // Verificamos si la respuesta tiene el código de estado 201 (creado)
+        // se verifica si la respuesta tiene el código de estado 201 (creado)
         $response->assertStatus(201);
 
-        // Verificamos si el usuario fue creado en la base de datos
+        // aqui verifica si el usuario fue creado en la base de datos
         $this->assertDatabaseHas('users', [
             'name' => 'John Doe',
             'email' => 'john@example.com',
         ]);
 
-        // También podrías verificar si la respuesta contiene los datos del usuario creado si así lo deseas
+       
         // $response->assertJson([
         //     'name' => 'John Doe',
         //     'email' => 'john@example.com',

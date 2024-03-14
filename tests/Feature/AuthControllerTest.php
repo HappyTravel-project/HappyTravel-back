@@ -15,7 +15,7 @@ class AuthControllerTest extends TestCase
     use RefreshDatabase;
 
     
-    public function user_can_login_with_valid_credentials()
+    public function testUserCanLoginWithValidCredentials()
     {
         $user = User::factory()->create([
             'password' => Hash::make('password'),
@@ -41,7 +41,7 @@ class AuthControllerTest extends TestCase
     }
 
    
-    public function user_cannot_login_with_invalid_credentials()
+    public function testUserCannotLoginWithInvalidCredentials()
     {
         $response = $this->postJson('/api/login', [
             'email' => 'invalid@example.com',

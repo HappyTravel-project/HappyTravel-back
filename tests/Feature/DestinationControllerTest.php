@@ -15,7 +15,7 @@ class DestinationControllerTest extends TestCase
 
 
     
-    public function authenticated_user_can_access_protected_endpoints()
+    public function testUserCanLoginWithValidCredentials()
     {
         $user = User::factory()->create();
         $this->actingAs($user);
@@ -26,7 +26,7 @@ class DestinationControllerTest extends TestCase
     }
 
     
-    // public function user_can_create_destination_with_valid_data()
+    // public function testUserCannotLoginWithInvalidCredentials()
     // {
     //     $user = User::factory()->create();
     //     $this->actingAs($user);

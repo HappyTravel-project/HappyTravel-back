@@ -24,13 +24,13 @@ class AuthController extends Controller
             'password' => 'required|min:8'
 
         ], [
-        'name.required' => 'El campo nombre es requerido.',
-        'name.string' => 'El campo nombre debe ser una cadena de caracteres.',
-        'name.max' => 'El campo nombre no puede tener más de 255 caracteres.',
-        'email.required' => 'El campo email es requerido.',
-        'email.email' => 'El formato del correo electrónico es incorrecto.',
-        'email.unique' => 'El correo electrónico ya está en uso.',
-        'password.required' => 'El campo contraseña es requerido.',
+        'name.required' => 'Nombre requerido.',
+        'name.string' => 'Asegúrate de que el campo nombre contenga solo letras y espacios.',
+        'name.max' => 'El nombre no puede exceder los 255 caracteres de longitud.',
+        'email.required' => 'Email requerido.',
+        'email.email' => 'El formato del email es incorrecto.',
+        'email.unique' => 'El email ya está en uso.',
+        'password.required' => 'Contraseña requerida.',
         'password.min' => 'La contraseña debe tener al menos 8 caracteres.',
     ]);
 

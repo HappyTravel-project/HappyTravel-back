@@ -12,18 +12,32 @@ class DestinationResource extends JsonResource
      *
      * @return array<string, mixed>
      */
+    // public function toArray(Request $request): array
+    // {
+    //     // return parent::toArray($request);
+    //     return[
+    //         'id' => $this->id,
+    //         'type' => 'destination',
+    //         'attributes' => [
+    //             'title' => $this->title,
+    //             'location' => $this->location,
+    //             'image' => $this->image,
+    //             'description' => $this->description,
+    //         ]
+    //         ];
+    // }
+
     public function toArray(Request $request): array
-    {
-        // return parent::toArray($request);
-        return[
-            'id' => $this->id,
-            'type' => 'destination',
-            'attributes' => [
-                'title' => $this->title,
-                'location' => $this->location,
-                'image' => $this->image,
-                'description' => $this->description,
-            ]
+        {
+            return [
+                'id' => $this->id,
+                'type' => 'destination',
+                'attributes' => [
+                    'title' => $this->title,
+                    'location' => $this->location,
+                    'image' => $this->image,
+                    'description' => $this->description,
+                ]
             ];
-    }
+        }
 }

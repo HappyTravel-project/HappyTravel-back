@@ -18,7 +18,7 @@ return [
     |
     */
 
-    'driver' => env('SESSION_DRIVER', 'file'),
+    'driver' => env('SESSION_DRIVER', 'file', 'cookie'),
 
     /*
     |--------------------------------------------------------------------------
@@ -155,7 +155,8 @@ return [
     |
     */
 
-    'domain' => env('SESSION_DOMAIN'),
+    //'domain' => env('SESSION_DOMAIN'),
+    'domain' => '.localhost:3000',
 
     /*
     |--------------------------------------------------------------------------

@@ -4,10 +4,17 @@
  * CSRF token as a header based on the value of the "XSRF" token cookie.
  */
 
-import axios from 'axios';
+import axios from "axios";
+
+// Configuración global de axios
+axios.defaults.withCredentials = true;
+axios.defaults.withXSRFToken = true;
+
+// Asignar axios a la ventana global para que esté disponible en toda la aplicación
 window.axios = axios;
 
-window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+// Establecer el encabezado 'X-Requested-With' en todas las solicitudes
+window.axios.defaults.headers.common["X-Requested-With"] = "XMLHttpRequest";
 
 /**
  * Echo exposes an expressive API for subscribing to channels and listening

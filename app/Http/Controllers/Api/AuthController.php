@@ -53,11 +53,11 @@ class AuthController extends Controller
 
         ]);
 
-        $token = $user->createToken('remember_token')->plainTextToken;
+        $token = $user->createToken('access_token')->plainTextToken;
 
         return response()->json([
             'user'    => $user,
-            'remember_token'   => $token,
+            'token'   => $token,
             'success' => true,
             'message' => 'Usuario registrado exitosamente.'
         ], 201);
@@ -78,6 +78,7 @@ class AuthController extends Controller
                 'message' => $validator->errors()->first()
             ], 422);
         }
+
         $user = User::where('email', $request->email)->first();
 
 

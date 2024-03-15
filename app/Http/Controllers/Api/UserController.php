@@ -31,7 +31,7 @@ class UserController extends Controller
             'password' => Hash::make($request->password)
         ]);
 
-        return response()->json($user);
+        return response()->json($user, 201);
     }
 
 

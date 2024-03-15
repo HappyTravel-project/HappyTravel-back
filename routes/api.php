@@ -9,6 +9,7 @@ Route::post('register', [AuthController::class, 'register']);
 Route::post('logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');
 
 Route::get('users', [UserController::class, 'index']);
+Route::post('users', [UserController::class, 'store']);
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('destinations', DestinationController::class)->except(['index', 'show']);

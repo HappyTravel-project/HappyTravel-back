@@ -40,9 +40,7 @@ class DestinationController extends Controller
 
     }
 
-    /**
-     * agregamos Auth
-     */
+
     public function store( Request $request): JsonResponse
     {
         $user = Auth::user();
@@ -145,6 +143,7 @@ class DestinationController extends Controller
             'message' => 'El destino ha sido eliminado exitosamente'
         ], Response::HTTP_OK);
     }
+
 
     public function search(Request $request)
     {

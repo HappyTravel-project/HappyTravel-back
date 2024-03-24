@@ -31,7 +31,7 @@ class AuthController extends Controller
                 'success' => false,
                 'message' => $validator->errors()->first()
 
-            ]);
+            ], 400);
 
         }
 
@@ -102,6 +102,6 @@ class AuthController extends Controller
 
         return response()->json([
             'message' => 'Sesión cerrada correctamente.'
-        ], Response::HTTP_OK);
+        ], 204);
     }
 }
